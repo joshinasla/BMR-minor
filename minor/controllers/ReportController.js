@@ -2,15 +2,15 @@ const User = require('../models/User');
 
 exports.createMr = async (req, _res, next) => {
 	try {
-		const { patientName, hospitalName, description } = req.body;
+		const { patientName, hospitalName,height,weight, description } = req.body;
 
 		req.user = await User.create({
 			type: 'Mr',
 			doctorName: process.env.MSPID,
 			patientName: patientName,
 			hospitalName: hospitalName,
-			height:height,
-			weight:weight,
+			height: height,
+			weight: weight,
 			description: description
 		});
 
