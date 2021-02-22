@@ -20,10 +20,10 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	// hospitalName: {
-	//  	type: String,
-	//  	required: true,
-    // },
+	hospitalName: {
+	 	type: String,
+	 	required: false,
+    },
     // address: {
     //     type: String,
     //     required: true,
@@ -32,14 +32,14 @@ const UserSchema = new Schema({
     //     type: String,
     //     default: false
     // },
-	// height: {
-	// 	type: String,
-	// 	required: true,
-	// },
-	// weight: {
-	// 	type:String,
-	// 	required: true,
-	// },
+	height: {
+		type: String,
+		required: true,
+	},
+	weight: {
+		type:String,
+		required: true,
+	},
 	description: {
 		type: String,
 		required: true,

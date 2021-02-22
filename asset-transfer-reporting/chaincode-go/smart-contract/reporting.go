@@ -18,18 +18,36 @@ type Report struct {
 	DoctorName   string `json:"doctorName"`
 	PatientName  string `json:"patientName"`
 	HospitalName string `json:"hospitalName"`
+	Height       string `json:"height"`
+	Weight       string `json:"weight"`
 	Timestamp    string `json:"timestamp"`
 	Description  string `json:"description"`
 }
 
 // InitLedger adds a base set of reports to the ledger
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
+	reports := []Report{
+		{ID: "invoice1", DoctorName: "Bibek", PatientName: "Dipesh", HospitalName: "patan", Height: "5.5", Weight: "30", Timestamp: "23-12-2020", Description: "common cold"},
+		{ID: "invoice2", DoctorName: "Ram", PatientName: "Shyam", HospitalName: "telganga", Height: "5.5", Weight: "30", Timestamp: "23-12-2020", Description: ""},
+	}
+
+	for _, report := range reports {
+		reportJSON, err := json.Marshal(report)
+		if err != nil {
+			return err
+		}
+
+		err = ctx.GetStub().PutState(report.ID, reportJSON)
+		if err != nil {
+			return fmt.Errorf("failed to put to world state. %v", err)
+		}
+	}
 
 	return nil
 }
 
 // CreateReport issues a new report to the world state with given details.
-func (s *SmartContract) CreateReport(ctx contractapi.TransactionContextInterface, id string, doctorName string, patientName string, hospitalName string, description string, at string) error {
+func (s *SmartContract) CreateReport(ctx contractapi.TransactionContextInterface, id string, doctorName string, patientName string, hospitalName string, description string, at string, height string, weight string) error {
 	exists, err := s.ReportExists(ctx, id)
 	if err != nil {
 		return err
@@ -46,6 +64,8 @@ func (s *SmartContract) CreateReport(ctx contractapi.TransactionContextInterface
 		HospitalName: hospitalName,
 		Timestamp:    at,
 		Description:  description,
+		Height:       height,
+		Weight:       weight,
 	}
 
 	reportJSON, err := json.Marshal(report)
@@ -60,7 +80,7 @@ func (s *SmartContract) CreateReport(ctx contractapi.TransactionContextInterface
 func (s *SmartContract) ReadReport(ctx contractapi.TransactionContextInterface, id string) (*Report, error) {
 	reportJSON, err := ctx.GetStub().GetState(id)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read from world state: %v", err)
+		return nil, fmt.Errorf("failed to readDoctorName world state: %v", err)
 	}
 	if reportJSON == nil {
 		return nil, fmt.Errorf("the report %s does not exist", id)
@@ -76,8 +96,8 @@ func (s *SmartContract) ReadReport(ctx contractapi.TransactionContextInterface, 
 }
 
 // ReadReportFromUser returns the report stored in the world state sent by users
-func (s *SmartContract) ReadReportFromUser(ctx contractapi.TransactionContextInterface, from string) ([]*Report, error) {
-	queryString := fmt.Sprintf("{\"selector\":{\"from\":\"%s\"}}", from)
+func (s *SmartContract) ReadReportFromUser(ctx contractapi.TransactionContextInterface, DoctorName string) ([]*Report, error) {
+	queryString := fmt.Sprintf("{\"selector\":{\"from\":\"%s\"}}", DoctorName)
 
 	resultsIterator, err := ctx.GetStub().GetQueryResult(queryString)
 	if err != nil {
@@ -104,7 +124,7 @@ func (s *SmartContract) ReadReportFromUser(ctx contractapi.TransactionContextInt
 }
 
 // UpdateReport updates an existing report in the world state with provided parameters.
-func (s *SmartContract) UpdateReport(ctx contractapi.TransactionContextInterface, id string, doctorName string, patientName string, hospitalName string, description string, height string, weight string, at string) error {
+func (s *SmartContract) UpdateReport(ctx contractapi.TransactionContextInterface, id string, doctorName string, patientName string, hospitalName string, description string, at string, height string, weight string) error {
 	exists, err := s.ReportExists(ctx, id)
 	if err != nil {
 		return err
@@ -122,6 +142,8 @@ func (s *SmartContract) UpdateReport(ctx contractapi.TransactionContextInterface
 		HospitalName: hospitalName,
 		Timestamp:    at,
 		Description:  description,
+		Height:       height,
+		Weight:       weight,
 	}
 	reportJSON, err := json.Marshal(report)
 	if err != nil {
@@ -131,7 +153,7 @@ func (s *SmartContract) UpdateReport(ctx contractapi.TransactionContextInterface
 	return ctx.GetStub().PutState(id, reportJSON)
 }
 
-// Deletereport deletes an given report from the world state.
+// Deletereport deletes an given reportDoctorName the world state.
 func (s *SmartContract) Deletereport(ctx contractapi.TransactionContextInterface, id string) error {
 	exists, err := s.ReportExists(ctx, id)
 	if err != nil {
@@ -148,14 +170,14 @@ func (s *SmartContract) Deletereport(ctx contractapi.TransactionContextInterface
 func (s *SmartContract) ReportExists(ctx contractapi.TransactionContextInterface, id string) (bool, error) {
 	reportJSON, err := ctx.GetStub().GetState(id)
 	if err != nil {
-		return false, fmt.Errorf("failed to read from world state: %v", err)
+		return false, fmt.Errorf("failed to readDoctorName world state: %v", err)
 	}
 
 	return reportJSON != nil, nil
 }
 
-// GetAllreports returns all reports found in world state
-func (s *SmartContract) GetAllreports(ctx contractapi.TransactionContextInterface) ([]*Report, error) {
+// GetAllReports returns all reports found in world state
+func (s *SmartContract) GetAllReports(ctx contractapi.TransactionContextInterface) ([]*Report, error) {
 	// range query with empty string for startKey and endKey does an
 	// open-ended query of all reports in the chaincode namespace.
 	resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
