@@ -9,6 +9,8 @@ exports.createMr = async (req, _res, next) => {
 			doctorName: process.env.MSPID,
 			patientName: patientName,
 			hospitalName: hospitalName,
+			height:height,
+			weight:weight,
 			description: description
 		});
 
