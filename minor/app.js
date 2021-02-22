@@ -84,15 +84,18 @@ function initial() {
 //       );
 //       next();
 //     });
-  
-    app.post("/signup/_id",
-      [
-        verifySignUp.checkDuplicateUsernameOrEmail,
-        verifySignUp.checkRolesExisted
-      ],
-      logincontroller.signup
-    );
-  
+app.post('/signup',
+[
+  verifySignUp.checkDuplicateUsernameOrEmail,
+  verifySignUp.checkRolesExisted
+],
+blockchainController.registerAndEnrollUser,
+responseController.ca,
+logincontroller.signup); 
+    
+      
+      
+
     app.post("/signin/", logincontroller.signin);
 
 // app.post("/signin",(req,res)=>{
