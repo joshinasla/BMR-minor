@@ -1,6 +1,6 @@
 const config = require("../config/auth.config");
 const db = require("../models");
-const Login = db.login;
+const People = db.people;
 const Role = db.role;
 
 var jwt = require("jsonwebtoken");
@@ -8,13 +8,13 @@ var bcrypt = require("bcryptjs");
 
 
 exports.signup = (req, res) => {
-  const login = new Login({
+  const people = new People({
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8)
   });
 
-  login.save((err, login) => {
+  people.save((err, people) => {
     if (err) {
       res.render('404');
       return;
@@ -31,8 +31,8 @@ exports.signup = (req, res) => {
             return;
           }
 
-          login.roles = roles.map(role => role._id);
-          login.save(err => {
+          people.roles = roles.map(role => role._id);
+          people.save(err => {
             if (err) {
               res.status(500).send({ message: err });
               return;
@@ -49,8 +49,8 @@ exports.signup = (req, res) => {
           return;
         }
 
-        login.roles = [role._id];
-        login.save(err => {
+        people.roles = [role._id];
+        people.save(err => {
           if (err) {
             res.status(500).send({ message: err });
             return;
@@ -65,24 +65,24 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
     console.log(req.body.username);
-  Login.findOne({
+  People.findOne({
     
     username: req.body.username
   })
     .populate("roles", "-__v")
-    .exec((err, login) => {
+    .exec((err, people) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
 
-      if (!login) {
+      if (!people) {
         return res.render('404');
       }
 
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
-        login.password
+        people.password
       );
 
       if (!passwordIsValid) {
@@ -93,14 +93,14 @@ exports.signin = (req, res) => {
         return res.render('404');
       }
 
-      var token = jwt.sign({ id: login.id }, config.secret, {
+      var token = jwt.sign({ id: people.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
       var authorities = [];
 
-      for (let i = 0; i < login.roles.length; i++) {
-        authorities.push("ROLE_" + login.roles[i].name.toUpperCase());
+      for (let i = 0; i < people.roles.length; i++) {
+        authorities.push("ROLE_" + people.roles[i].name.toUpperCase());
       }
       res.render('home');
       

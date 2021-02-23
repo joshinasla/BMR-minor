@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models");
-const Login = db.login;
+const People = db.people;
 const Role = db.role;
 
 verifyToken = (req, res, next) => {
@@ -21,7 +21,7 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = (req, res, next) => {
-  Login.findById(req.loginId).exec((err, login) => {
+  People.findById(req.peopleId).exec((err, people) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -29,7 +29,7 @@ isAdmin = (req, res, next) => {
 
     Role.find(
       {
-        _id: { $in: login.roles }
+        _id: { $in: people.roles }
       },
       (err, roles) => {
         if (err) {
@@ -52,7 +52,7 @@ isAdmin = (req, res, next) => {
 };
 
 isDoctor= (req, res, next) => {
-  Login.findById(req.loginId).exec((err, login) => {
+  People.findById(req.peopleId).exec((err, people) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -60,7 +60,7 @@ isDoctor= (req, res, next) => {
 
     Role.find(
       {
-        _id: { $in: login.roles }
+        _id: { $in: people.roles }
       },
       (err, roles) => {
         if (err) {

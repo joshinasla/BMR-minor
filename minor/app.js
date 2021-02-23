@@ -28,7 +28,7 @@ var User = require('./models/User');
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-console.log(process.env);
+//console.log(process.env);
 
 // set views
 app.set('views', './views')
@@ -96,7 +96,7 @@ logincontroller.signup);
       
       
 
-    app.post("/signin/", logincontroller.signin);
+app.post("/signin/", logincontroller.signin);
 
 // app.post("/signin",(req,res)=>{
 //     res.render('home')
@@ -121,6 +121,7 @@ app.get('/tracking', (req, res) => {
 
 app.get('/contact', (req, res) => {
     res.render('contact-us')
+    req.session.destroy()
 })
 
 app.get('/doctor_details', (req, res) => {

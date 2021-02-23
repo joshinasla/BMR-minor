@@ -146,7 +146,7 @@ const invokeChaincode = async (req, _res, next) => {
         try {
             await gateway.connect(ccp, {
                 wallet,
-                identity: 'admin',
+                identity: req.headers.user,
                 discovery: { enabled: true, asLocalhost: false }
             });
             const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
