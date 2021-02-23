@@ -11,6 +11,7 @@ const blockchainController = require('./controllers/blockchainController');
 const responseController = require('./controllers/responseController');
 const { verifySignUp } = require("./middlewares");
 const logincontroller = require("./controllers/auth.controller");
+const {enrollAdmin} = require('./controllers/blockchainController')
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -89,11 +90,12 @@ app.post('/signup',
   verifySignUp.checkDuplicateUsernameOrEmail,
   verifySignUp.checkRolesExisted
 ],
+//blockchainController.enrollAdmin,
 blockchainController.registerAndEnrollUser,
 responseController.ca,
 logincontroller.signup); 
     
-      
+enrollAdmin();      
       
 
 app.post("/signin/", logincontroller.signin);

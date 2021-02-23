@@ -1,29 +1,29 @@
 const db=require("../models");
 const ROLES =db.ROLES;
-const People = db.people;
+const Login = db.login;
 
 checkDuplicateUsernameOrEmail = (req,res, next) => {
     //Username
-    People.findOne({
-        username : req.body.username}).exec((err,people) =>{
+    Login.findOne({
+        username : req.body.username}).exec((err,login) =>{
             if (err) {
                 res.status(500).send({message:err});
                 return;
             }
-            if(people){
+            if(login){
                 res.status(400).send({message:"Failed! Username is already in use!" })
                 return;
             }
         })
     //Email
-    People.findOne({
+    Login.findOne({
         email: req.body.email
-    }).exec((err,people) => {
+    }).exec((err,login) => {
         if(err){
             res.status(500).send({message:err});
             return;
         }
-        if (people) {
+        if (login) {
             res.status(400).send({ message: "Failed! Email is already in use!" });
             return;
         }
