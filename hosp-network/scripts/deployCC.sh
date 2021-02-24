@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source scriptUtils.sh
 
 CHANNEL_NAME=${1:-"mychannel"}
@@ -305,7 +307,7 @@ chaincodeQuery() {
     sleep $DELAY
     infoln "Attempting to Query peer0.org${ORG}, Retry after $DELAY seconds."
     set -x
-    peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["queryAllCars"]}' >&log.txt
+    peer chaincode query -C $CHANNEL_NAME -n ${CC_NAME} -c '{"Args":["GetAllReports"]}' >&log.txt
     res=$?
     { set +x; } 2>/dev/null
     let rc=$res

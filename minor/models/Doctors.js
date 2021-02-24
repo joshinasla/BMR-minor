@@ -3,7 +3,9 @@ var mongoose = require('mongoose');
 const DoctorSchema = mongoose.Schema({
     id: String,
     doctorName: String,
-    description: String
+    NMCNumber: String,
+    qualification: String,
+    speciality: String
     
 })
 

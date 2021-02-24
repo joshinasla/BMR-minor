@@ -8,67 +8,11 @@ var bcrypt = require("bcryptjs");
 const { user } = require("./responseController");
 
 
-exports.signup = (req, res) => {
-  const login = new Login({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
-  });
-
-  login.save((err, login) => {
-    if (err) {
-      res.render('404');
-      return;
-    }
-
-    // if (req.body.roles) {
-    //   Role.find(
-    //     {
-    //       name: { $in: req.body.roles }
-    //     },
-    //     (err, roles) => {
-    //       if (err) {
-    //         res.status(500).send({ message: err });
-    //         return;
-    //       }
-
-    //       login.roles = roles.map(role => role._id);
-    //       login.save(err => {
-    //         if (err) {
-    //           res.status(500).send({ message: err });
-    //           return;
-    //         }
-
-    //         res.render('home');
-    //       });
-    //     }
-    //   );
-    // } else {
-    //   Role.findOne({ name: "patient" }, (err, role) => {
-    //     if (err) {
-    //       res.status(500).send({ message: err });
-    //       return;
-    //     }
-
-    //     login.roles = [role._id];
-    //     login.save(err => {
-    //       if (err) {
-    //         res.status(500).send({ message: err });
-    //         return;
-    //       }
-
-          res.send({ message: "User was registered successfully!" });
-        });
-      
-    
-  
-};
-
 exports.signin = (req, res) => {
-    console.log(req.body.username);
+    console.log(req.body.email);
   Login.findOne({
     
-    username: req.body.username
+    email: req.body.email
   })
     .populate("roles", "-__v")
     .exec((err, login) => {
@@ -103,14 +47,15 @@ exports.signin = (req, res) => {
       for (let i = 0; i < login.roles.length; i++) {
         authorities.push("ROLE_" + login.roles[i].name.toUpperCase());
       }
-      res.status(200).send({
-        id: login._id,
-        username: login.username,
-        email: user.email,
-        roles: authorities,
-        accessToken: token
-      });
-      res.render('home');
+      // res.status(200).send({
+      //   id: login._id,
+      //   email: user.email,
+      //   roles: authorities,
+      //   accessToken: token
+      // });
+      res.render('home',{data: token});
       
-    });
-};
+
+    }  
+    )}
+    

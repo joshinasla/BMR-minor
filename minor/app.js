@@ -3,17 +3,20 @@ const http = require('http');
 const express = require('express')
 const app = express()
 const path = require("path");
-const port = process.env.PORT || 3000;
+
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const ReportController = require('./controllers/ReportController');
+const reportController = require('./controllers/reportController');
 const blockchainController = require('./controllers/blockchainController');
 const responseController = require('./controllers/responseController');
 const { verifySignUp } = require("./middlewares");
 const logincontroller = require("./controllers/auth.controller");
 const {enrollAdmin} = require('./controllers/blockchainController')
 const dotenv = require('dotenv');
+const checkAuth = require("./middlewares/check-auth")
 dotenv.config();
+const Doctor = require('./models/Doctors')
+const port = process.env.PORT || 3000;
 
 const cors = require("cors");
 var corsOptions = {
@@ -41,6 +44,8 @@ mongoose.connect('mongodb://localhost:27017/test',{useNewUrlParser:true})
 .then(()=> console.log('connection sucessful'))
 .catch((err) => console.log('connection failed'))
 
+
+//enrollAdmin();  
 function initial() {
     Role.estimatedDocumentCount((err, count) => {
       if (!err && count === 0) {
@@ -90,15 +95,16 @@ app.post('/signup',
   verifySignUp.checkDuplicateUsernameOrEmail,
   verifySignUp.checkRolesExisted
 ],
+// logincontroller.signup
 //blockchainController.enrollAdmin,
 blockchainController.registerAndEnrollUser,
 responseController.ca,
-logincontroller.signup); 
+); 
     
-enrollAdmin();      
+    
       
 
-app.post("/signin/", logincontroller.signin);
+app.post("/signin", logincontroller.signin);
 
 // app.post("/signin",(req,res)=>{
 //     res.render('home')
@@ -111,6 +117,10 @@ app.get('/', (req, res) => {
 
 app.get('/home', (req, res) => {
     res.render('home')
+})
+
+app.get('/homedoctor', (req, res) => {
+  res.render('homedoctor')
 })
 
 app.get('/about', (req, res) => {
@@ -126,16 +136,56 @@ app.get('/contact', (req, res) => {
     req.session.destroy()
 })
 
+app.get('/view_doctor', (req, res) => {
+  res.render('view_doctor')
+})
+
 app.get('/doctor_details', (req, res) => {
     res.render('doctor_details')
 })
 
-app.get('/quote', (req, res) => {
-    res.render('quote',{
-        data:{}
-    })
+app.get('/quotedoctor', (req, res) => {
+  res.render('quotedoctor')
 })
 
+app.get('/quote', (req, res) => {
+  var token = req.headers.token;
+  console.log(token)
+    res.render('quote',{
+        data:{},
+        // header: new Headers({
+        //   'user': token
+        })
+
+    })
+app.get('/doctor_entry', (req,res) => {
+  res.render('form',{
+      data:{}
+  })
+})
+app.post('/doctor_entry', function(req,res){
+  res.render('form',{
+    data:req.body
+  })
+  console.log(req.body.doctorName)
+  var doctor = new Doctor({
+          doctorName :req.body.doctorName,
+          NMCNumber : req.body.NMCNumber,
+          //hospitalName: res.body.hospitalName,
+          qualification: req.body.qualification,
+          speciality: req.body.speciality,
+
+  })
+          var promise = doctor.save()
+          promise.then((doctor) => {
+          console.log("user saved",doctor)
+          })
+          
+})
+// app.get('/token', function(req, res){
+//   var token = jwt.sign({id: login.id}, config.secret ,{expiresIn: 120});
+//   res.send(token)
+// })
 // app.post('/quote', function(req, res){
 //     res.render('quote',{
 //         data:req.body
@@ -158,22 +208,24 @@ app.get('/quote', (req, res) => {
     
 // })
 
-app.post('/quote',ReportController.createMr,
+app.post('/quote',reportController.createMr,
 blockchainController.invokeChaincode,
-responseController.user)
+responseController.user
+)
 
+app.post('/quotedoctor',reportController.createMr,
+blockchainController.invokeChaincode,
+responseController.user
+)
 
-//searching
-// app.get('/:id',  function(req, res){
-//     User.findById(req.params.id,
-//         function(err, doctor){
-//             if(err){
-//                 console.log("Error!");
-//             }
-//             else{
-//                 res.render('doctor',{doctor: doctor});
-//             }
-//         })})
-
+app.post('/search',function(req,res){
+  console.log(req.body);
+  Doctor.find({'doctorName': {$regex:req.body.name}})
+  .then((data =>{
+    console.log(data[0].doctorName)
+    res.render('view_doctor', {data});
+  })
+  )}
+)
 //Listen to port 3000
 app.listen(port, () => console.info(`Listening on port ${port}`))

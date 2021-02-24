@@ -18,30 +18,30 @@ type Report struct {
 	DoctorName   string `json:"doctorName"`
 	PatientName  string `json:"patientName"`
 	HospitalName string `json:"hospitalName"`
-	Height       string `json:"height"`
-	Weight       string `json:"weight"`
 	Timestamp    string `json:"timestamp"`
 	Description  string `json:"description"`
+	Height       string `json:"height"`
+	Weight       string `json:"weight"`
 }
 
 // InitLedger adds a base set of reports to the ledger
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
-	reports := []Report{
-		{ID: "invoice1", DoctorName: "Bibek", PatientName: "Dipesh", HospitalName: "patan", Height: "5.5", Weight: "30", Timestamp: "23-12-2020", Description: "common cold"},
-		{ID: "invoice2", DoctorName: "Ram", PatientName: "Shyam", HospitalName: "telganga", Height: "5.5", Weight: "30", Timestamp: "23-12-2020", Description: ""},
-	}
+	// reports := []Report{
+	// 	{ID: "invoice1", DoctorName: "Bibek", PatientName: "Dipesh", HospitalName: "patan", Timestamp: "23-12-2020", Description: ""},
+	// 	{ID: "invoice2", DoctorName: "Ram", PatientName: "Shyam", HospitalName: "telganga", Timestamp: "23-12-2020", Description: ""},
+	// }
 
-	for _, report := range reports {
-		reportJSON, err := json.Marshal(report)
-		if err != nil {
-			return err
-		}
+	// for _, report := range reports {
+	// 	reportJSON, err := json.Marshal(report)
+	// 	if err != nil {
+	// 		return err
+	// 	}
 
-		err = ctx.GetStub().PutState(report.ID, reportJSON)
-		if err != nil {
-			return fmt.Errorf("failed to put to world state. %v", err)
-		}
-	}
+	// 	err = ctx.GetStub().PutState(report.ID, reportJSON)
+	// 	if err != nil {
+	// 		return fmt.Errorf("failed to put to world state. %v", err)
+	// 	}
+	// }
 
 	return nil
 }
@@ -97,7 +97,7 @@ func (s *SmartContract) ReadReport(ctx contractapi.TransactionContextInterface, 
 
 // ReadReportFromUser returns the report stored in the world state sent by users
 func (s *SmartContract) ReadReportFromUser(ctx contractapi.TransactionContextInterface, DoctorName string) ([]*Report, error) {
-	queryString := fmt.Sprintf("{\"selector\":{\"from\":\"%s\"}}", DoctorName)
+	queryString := fmt.Sprintf("{\"selector\":{\"doctorName\":\"%s\"}}", DoctorName)
 
 	resultsIterator, err := ctx.GetStub().GetQueryResult(queryString)
 	if err != nil {
@@ -153,8 +153,8 @@ func (s *SmartContract) UpdateReport(ctx contractapi.TransactionContextInterface
 	return ctx.GetStub().PutState(id, reportJSON)
 }
 
-// Deletereport deletes an given reportDoctorName the world state.
-func (s *SmartContract) Deletereport(ctx contractapi.TransactionContextInterface, id string) error {
+// DeleteReport deletes an given reportDoctorName the world state.
+func (s *SmartContract) DeleteReport(ctx contractapi.TransactionContextInterface, id string) error {
 	exists, err := s.ReportExists(ctx, id)
 	if err != nil {
 		return err
