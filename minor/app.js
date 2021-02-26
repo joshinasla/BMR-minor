@@ -11,7 +11,6 @@ const { verifySignUp } = require("./middlewares");
 const logincontroller = require("./controllers/auth.controller");
 const { enrollAdmin } = require('./controllers/blockchainController')
 const checkAuth = require("./middlewares/check-auth")
-const Doctor = require('./models/Doctors')
 const port = process.env.PORT || 3000;
 
 const cors = require("cors");
@@ -21,7 +20,7 @@ var corsOptions = {
 
 
 // require("./db/conn");
-var User = require('./models/User');
+var User = require('./models/Report');
 // var Login = require('./login')
 
 // Static Files
@@ -45,50 +44,7 @@ mongoose.connection.on('error', (err) => {
 
 
 enrollAdmin();  
-function initial() {
-  Role.estimatedDocumentCount((err, count) => {
-    if (!err && count === 0) {
-      new Role({
-        name: "patient"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
 
-        console.log("added 'patient' to roles collection");
-      });
-
-      new Role({
-        name: "doctor"
-      }).save(err => {
-        if (err) {
-          console.log("doctor", err);
-        }
-
-        console.log("added 'doctor' to roles collection");
-      });
-
-      new Role({
-        name: "admin"
-      }).save(err => {
-        if (err) {
-          console.log("error", err);
-        }
-
-        console.log("added 'admin' to roles collection");
-      });
-    }
-  });
-}
-
-// module.exports = function(app) {
-//     app.use(function(req, res, next) {
-//       res.header(
-//         "Access-Control-Allow-Headers",
-//         "x-access-token, Origin, Content-Type, Accept"
-//       );
-//       next();
-//     });
 app.post('/signup',
   [
     verifySignUp.checkDuplicateUsernameOrEmail,
@@ -99,9 +55,6 @@ app.post('/signup',
   blockchainController.registerAndEnrollUser,
   responseController.ca,
 );
-
-
-
 
 app.post("/signin", logincontroller.signin);
 

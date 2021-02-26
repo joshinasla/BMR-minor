@@ -178,7 +178,7 @@ const invokeChaincode = async (req, _res, next) => {
         const ccp = buildCCP();
         const wallet = await buildWallet(Wallets, walletPath);
         const gateway = new Gateway();
-        console.log(_res.header.user)
+        console.log(req.header.user)
         try {
             await gateway.connect(ccp, {
                 wallet,

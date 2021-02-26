@@ -1,7 +1,6 @@
 const config = require("../config/auth.config");
-const db = require("../models");
-const Login = db.login;
-const Role = db.role;
+
+const User = require('../models/User');
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -9,12 +8,11 @@ const { user } = require("./responseController");
 
 
 exports.signin = (req, res) => {
-    console.log(req.body.email);
-  Login.findOne({
-    
+  console.log(req.body.email);
+  User.findOne({
+
     email: req.body.email
   })
-    .populate("roles", "-__v")
     .exec((err, login) => {
       if (err) {
         res.status(500).send({ message: err });
@@ -41,21 +39,15 @@ exports.signin = (req, res) => {
       var token = jwt.sign({ id: login.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
-
-      var authorities = [];
-
-      for (let i = 0; i < login.roles.length; i++) {
-        authorities.push("ROLE_" + login.roles[i].name.toUpperCase());
-      }
       // res.status(200).send({
       //   id: login._id,
       //   email: user.email,
       //   roles: authorities,
       //   accessToken: token
       // });
-      res.render('home',{data: token});
-      
+      res.render('home', { data: token });
 
-    }  
-    )}
-    
+
+    }
+    )
+}

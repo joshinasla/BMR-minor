@@ -1,55 +1,15 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const mongoose= require('mongoose');
 
-const UserSchema = new Schema({
-	// type: {
-    //     type: String,
-	// 	// enum: ['DEBIT', 'CREDIT'],
-	// 	// default: 'DEBIT'
-	// 	enum: ['DOCTOR','PATIENTS']
-	// },
-	// id:{
-	// 	type: String,
-	// 	required: true,
-	// },
-	doctorName: {
-		type: String,
-		required: true,
-	},
-	patientName: {
-		type: String,
-		required: true,
-	},
-	hospitalName: {
-	 	type: String,
-	 	required: false,
-    },
-    // address: {
-    //     type: String,
-    //     required: true,
-    // },
-    // telephone: {
-    //     type: String,
-    //     default: false
-    // },
-	height: {
-		type: String,
-		required: true,
-	},
-	weight: {
-		type:String,
-		required: true,
-	},
-	description: {
-		type: String,
-		required: true,
-	}
-	// d_id:{
-	// 	type:String,
-	// 	required:true,
-	// }
-});
-
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model(
+    "User",
+    new mongoose.Schema({
+        email: { type: String, required: true, unique: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/},  
+        password: {type: String, required : true},
+        roles: {type: String, enum: ['Doctor', 'Patient', 'Admin'], default: 'Patient'},
+        NMCNumber: {type: String, required : false},
+        qualification: {type: String, required : false},
+        speciality: {type: String, required : false}
+    })
+)
 
 module.exports = User;

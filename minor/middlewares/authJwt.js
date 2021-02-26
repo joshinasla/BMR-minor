@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
-const db = require("../models");
-const Login = db.login;
-const Role = db.role;
+const User = require('../models/User');
 
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
@@ -21,64 +19,32 @@ verifyToken = (req, res, next) => {
 };
 
 isAdmin = (req, res, next) => {
-  Login.findById(req.loginId).exec((err, login) => {
+  User.findById(req.loginId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
 
-    Role.find(
-      {
-        _id: { $in: login.roles }
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
+    if(user.roles !== 'Admin') {
+      return res.status(403).json({message: 'Unauthorized!'})
+    }
 
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "admin") {
-            next();
-            return;
-          }
-        }
-
-        res.status(403).send({ message: "Require Admin Role!" });
-        return;
-      }
-    );
+    return next();
   });
 };
 
-isDoctor= (req, res, next) => {
-  Login.findById(req.loginId).exec((err, login) => {
+isDoctor = (req, res, next) => {
+  User.findById(req.loginId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
 
-    Role.find(
-      {
-        _id: { $in: login.roles }
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
+    if(user.roles !== 'Doctor') {
+      return res.status(403).json({message: 'Unauthorized!'})
+    }
 
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "doctor") {
-            next();
-            return;
-          }
-        }
-
-        res.status(403).send({ message: "Require Doctor Role!" });
-        return;
-      }
-    );
+    return next();
   });
 };
 
