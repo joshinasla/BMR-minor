@@ -1,93 +1,17 @@
 version: "2"
 
-networks:
+networks: 
   test:
+    
 
-services:
-  reporting-db-org1:
-    image: mongo:latest
-    container_name: reporting-db-org1
-    environment:
-      - MONGO_INITDB_DATABASE=reporting
-    volumes:
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - ./mongo-volume1:/data/db
-    ports:
-      - "27017-27019:27017-27019"
-    networks:
-      - test
-
+services: 
   reporting-org1:
     build:
       context: ../minor
       dockerfile: Dockerfile
-    env_file: .env1
-    ports:
-      - "8848:8848"
-    container_name: reporting-org1
-    volumes:
-      - ./config:/usr/src/app/config
-      - ./wallet-org1:/usr/src/app/wallet
-      - ../hosp-network/organizations/ordererOrganizations:/usr/src/app/../hosp-network/organizations/ordererOrganizations
-      - ../hosp-network/organizations/peerOrganizations:/usr/src/app/../hosp-network/organizations/peerOrganizations
-    depends_on:
-      - reporting-db-org1
-    networks:
-      - test
-
-  reporting-org1-frontend:
-    build:
-      context: ../minor
-      dockerfile: Dockerfile
-    env_file: .env1-frontend
-    ports:
+    env_file: .env
+    ports: 
       - "3000:3000"
-    container_name: reporting-org1-frontend
-    depends_on:
-      - reporting-org1
-    networks:
-      - test
-
-  reporting-db-org2:
-    image: mongo:latest
-    container_name: reporting-db-org2
-    environment:
-      - MONGO_INITDB_DATABASE=reporting
-    volumes:
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - ./mongo-volume2:/data/db
-    ports:
-      - "37017-37019:27017-27019"
-    networks:
-      - test
-
-  reporting-org2:
-    build:
-      context: ../minor
-      dockerfile: Dockerfile
-    env_file: .env2
-    ports:
-      - "9848:8848"
-    container_name: reporting-org2
-    volumes:
-      - ./config:/usr/src/app/config
-      - ./wallet-org2:/usr/src/app/wallet
-      - ../hosp-network/organizations/ordererOrganizations:/usr/src/app/../hosp-network/organizations/ordererOrganizations
-      - ../hosp-network/organizations/peerOrganizations:/usr/src/app/../hosp-network/organizations/peerOrganizations
-    depends_on:
-      - reporting-db-org2
-    networks:
-      - test
-
-  reporting-org2-frontend:
-    build:
-      context: ../minor
-      dockerfile: Dockerfile
-    env_file: .env2-frontend
-    ports:
-      - "4000:3000"
-    container_name: reporting-org2-frontend
-    depends_on:
-      - reporting-org2
-    networks:
-      - test
+    container_name: reporting-org1
+    networks: 
+      - test        

@@ -15,7 +15,7 @@ exports.createMr = async (req, _res, next) => {
 		});
 
 		req.blockchainFunc = 'CreateReport';
-
+        console.log("report created")
 		return next();
 	} catch (error) {
 		console.log("error in report controller")
