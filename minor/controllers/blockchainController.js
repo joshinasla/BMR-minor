@@ -186,15 +186,17 @@ const invokeChaincode = async (req, _res, next) => {
             
             const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
             const contract = network.getContract(process.env.CHAINCODE_NAME);
-            req.user._id = uuidv4();
+            req.body._id = uuidv4();
 
-            await contract.submitTransaction(funcName,
-            req.user._id,
-            req.user.patient_name,
-            req.user.doctors_name,
-            req.user.weight,
-            req.user.height,
-            req.user.description);
+            await contract.submitTransaction('CreateReport',
+            req.body._id,
+            req.body.doctorName,
+            req.body.patientName,
+            process.env.MSPID,
+            req.body.description,
+            Date.now(),
+            req.body.height,
+            req.body.weight);
             // const result = await contract.evaluateTransaction(funcName, req.login._id);
             // req.blockchain = prettyJSONString(result.toString());
 
