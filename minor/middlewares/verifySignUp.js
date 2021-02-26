@@ -7,14 +7,12 @@ checkDuplicateUsernameOrEmail = (req,res, next) => {
         email: req.body.email
     }).exec((err,login) => {
         if(err){
-            res.status(500).send({message:err});
-            return;
+            return res.status(500).send({message:err});
         }
         if (login) {
-            res.status(400).send({ message: "Failed! Email is already in use!" });
-            return;
+            return res.status(400).send({ message: "Failed! Email is already in use!" });
         }
-        next();
+        return next();
     })    
 }
 

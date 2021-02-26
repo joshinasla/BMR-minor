@@ -4,7 +4,6 @@ const app = express();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const reportController = require('./controllers/reportController');
 const blockchainController = require('./controllers/blockchainController');
 const responseController = require('./controllers/responseController');
 const { verifySignUp } = require("./middlewares");
@@ -20,7 +19,7 @@ var corsOptions = {
 
 
 // require("./db/conn");
-var User = require('./models/Report');
+var User = require('./models/User');
 // var Login = require('./login')
 
 // Static Files
@@ -47,8 +46,7 @@ enrollAdmin();
 
 app.post('/signup',
   [
-    verifySignUp.checkDuplicateUsernameOrEmail,
-    verifySignUp.checkRolesExisted
+    verifySignUp.checkDuplicateUsernameOrEmail
   ],
   // logincontroller.signup
   //blockchainController.enrollAdmin,
@@ -160,12 +158,12 @@ app.post('/doctor_entry', function (req, res) {
 
 // })
 
-app.post('/quote', reportController.createMr,
+app.post('/quote',
   blockchainController.invokeChaincode,
   responseController.user
 )
 
-app.post('/quotedoctor', reportController.createMr,
+app.post('/quotedoctor',
   blockchainController.invokeChaincode,
   responseController.user
 )

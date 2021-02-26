@@ -6,12 +6,9 @@ const fs = require('fs');
 const path = require('path');
 const walletPath = path.join(__dirname, '..', 'wallet');
 
-const db =require("../models");
-const Login = db.login;
+const User = require('../models/User');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-const { getMaxListeners } = require('../models/role.model');
-const { role } = require('../models');
 
 /**
  *
@@ -143,14 +140,14 @@ const registerAndEnrollUser = async (req, _res, next) => {
         await wallet.put(email, x509Identity);
         req.ca = x509Identity;
         console.log(role)
-        const login = new Login({
+        const user = new User({
             //username: req.body.username,
             email: req.body.email,
             role: req.body.role,
             password: bcrypt.hashSync(req.body.password, 8)
             
           });
-          login
+          user
           .save()
           .then(result => {
             console.log(result);
