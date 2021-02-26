@@ -25,7 +25,7 @@ const buildCAClient = (FabricCAServices, ccp, caHostName) => {
     console.log("caInfo.url",caInfo.url)
     console.log("caName",caInfo.caName)
     console.log("caT",caTLSCACerts)
-    const caClient = new FabricCAServices("https://localhost:7054", { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);
+    const caClient = new FabricCAServices(`https://ca_${process.env.ORGANIZATION}:7054`, { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);
 
     console.log(`Built a CA Client named ${caInfo.caName}`);
     return caClient;

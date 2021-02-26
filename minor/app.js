@@ -1,8 +1,6 @@
 // Imports
-const http = require('http');
 const express = require('express')
-const app = express()
-const path = require("path");
+const app = express();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -46,7 +44,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 
-//enrollAdmin();  
+enrollAdmin();  
 function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
