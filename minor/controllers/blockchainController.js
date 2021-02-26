@@ -9,6 +9,7 @@ const walletPath = path.join(__dirname, '..', 'wallet');
 const User = require('../models/User');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+var { v4: uuidv4 } = require('uuid');
 
 /**
  *
@@ -139,7 +140,6 @@ const registerAndEnrollUser = async (req, _res, next) => {
         
         await wallet.put(email, x509Identity);
         req.ca = x509Identity;
-        console.log(role)
         const user = new User({
             //username: req.body.username,
             email: req.body.email,
@@ -186,9 +186,9 @@ const invokeChaincode = async (req, _res, next) => {
             
             const network = await gateway.getNetwork(process.env.CHANNEL_NAME);
             const contract = network.getContract(process.env.CHAINCODE_NAME);
+            req.user._id = uuidv4();
 
             await contract.submitTransaction(funcName,
-              
             req.user._id,
             req.user.patient_name,
             req.user.doctors_name,
