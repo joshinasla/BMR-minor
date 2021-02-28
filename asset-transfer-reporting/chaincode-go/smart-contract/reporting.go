@@ -15,6 +15,7 @@ type SmartContract struct {
 // Report describes basic details of what makes up a simple report
 type Report struct {
 	ID           string `json:"id"`
+	//IssueDate    string `json:"issueDate"`
 	DoctorName   string `json:"doctorName"`
 	PatientName  string `json:"patientName"`
 	HospitalName string `json:"hospitalName"`
@@ -77,13 +78,13 @@ func (s *SmartContract) CreateReport(ctx contractapi.TransactionContextInterface
 }
 
 // ReadReport returns the report stored in the world state with given id.
-func (s *SmartContract) ReadReport(ctx contractapi.TransactionContextInterface, id string) (*Report, error) {
-	reportJSON, err := ctx.GetStub().GetState(id)
+func (s *SmartContract) ReadReport(ctx contractapi.TransactionContextInterface, PatientName string) (*Report, error) {
+	reportJSON, err := ctx.GetStub().GetState(PatientName)
 	if err != nil {
-		return nil, fmt.Errorf("failed to readDoctorName world state: %v", err)
+		return nil, fmt.Errorf("failed to readPatientName world state: %v", err)
 	}
 	if reportJSON == nil {
-		return nil, fmt.Errorf("the report %s does not exist", id)
+		return nil, fmt.Errorf("the report %s does not exist", PatientName)
 	}
 
 	var report Report

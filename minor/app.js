@@ -8,6 +8,7 @@ const blockchainController = require('./controllers/blockchainController');
 const responseController = require('./controllers/responseController');
 const { verifySignUp } = require("./middlewares");
 const logincontroller = require("./controllers/auth.controller");
+const reportController = require("./controllers/reportController")
 const { enrollAdmin } = require('./controllers/blockchainController')
 const checkAuth = require("./middlewares/check-auth")
 const port = process.env.PORT || 3000;
@@ -40,9 +41,7 @@ mongoose.set('useCreateIndex', true);
 mongoose.connection.on('error', (err) => {
 	console.error('Mongo failed to connect');
 });
-
-
-enrollAdmin();  
+enrollAdmin();
 
 app.post('/signup',
   [
@@ -55,6 +54,9 @@ app.post('/signup',
 );
 
 app.post("/signin", logincontroller.signin);
+
+
+
 
 // app.post("/signin",(req,res)=>{
 //     res.render('home')
@@ -113,25 +115,27 @@ app.get('/doctor_entry', (req, res) => {
     data: {}
   })
 })
-app.post('/doctor_entry', function (req, res) {
-  res.render('form', {
-    data: req.body
-  })
-  console.log(req.body.doctorName)
-  var doctor = new Doctor({
-    doctorName: req.body.doctorName,
-    NMCNumber: req.body.NMCNumber,
-    //hospitalName: res.body.hospitalName,
-    qualification: req.body.qualification,
-    speciality: req.body.speciality,
 
-  })
-  var promise = doctor.save()
-  promise.then((doctor) => {
-    console.log("user saved", doctor)
-  })
 
-})
+// app.post('/doctor_entry', function (req, res) {
+//   res.render('form', {
+//     data: req.body
+//   })
+//   console.log(req.body.doctorName)
+//   var user = new Doctor({
+//     doctorName: req.body.doctorName,
+//     NMCNumber: req.body.NMCNumber,
+//     //hospitalName: res.body.hospitalName,
+//     qualification: req.body.qualification,
+//     speciality: req.body.speciality,
+
+//   })
+//   var promise = doctor.save()
+//   promise.then((doctor) => {
+//     console.log("user saved", doctor)
+//   })
+
+// })
 // app.get('/token', function(req, res){
 //   var token = jwt.sign({id: login.id}, config.secret ,{expiresIn: 120});
 //   res.send(token)
@@ -168,11 +172,17 @@ app.post('/quotedoctor',
   responseController.user
 )
 
+app.post('/find',
+  reportController.getReportByID,
+  blockchainController.queryChaincode
+  
+  )
+
 app.post('/search', function (req, res) {
   console.log(req.body);
-  Doctor.find({ 'doctorName': { $regex: req.body.name } })
+  User.find({ 'name': { $regex: req.body.name } })
     .then((data => {
-      console.log(data[0].doctorName)
+      console.log(data[0].name)
       res.render('view_doctor', { data });
     })
     )
