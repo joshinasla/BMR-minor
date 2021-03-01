@@ -62,7 +62,9 @@ app.post("/signin", logincontroller.signin);
 //     res.render('home')
 // })
 // };
-
+app.get('/logout',(req,res) =>{
+  res.render('index')
+})
 app.get('/', (req, res) => {
   res.render('index')
 })

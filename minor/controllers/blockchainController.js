@@ -197,7 +197,8 @@ const invokeChaincode = async (req, _res, next) => {
             req.body.issueDate,
             Date.now(),
             req.body.height,
-            req.body.weight);
+            req.body.weight,
+            req.body.patCitizenshipNo);
             // const result = await contract.evaluateTransaction(funcName, req.login._id);
             // req.blockchain = prettyJSONString(result.toString());
 

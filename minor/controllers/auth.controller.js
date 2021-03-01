@@ -45,7 +45,12 @@ exports.signin = (req, res) => {
       //   roles: authorities,
       //   accessToken: token
       // });
+      if (roles==='Patient'){
       res.render('home', { data: token });
+      }
+      else {
+        res.render('homedoctor',{data: token});
+      }
 
 
     }
