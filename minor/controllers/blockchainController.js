@@ -23,7 +23,7 @@ const buildCAClient = (FabricCAServices, ccp, caHostName) => {
     console.log("caInfo.url",caInfo.url)
     console.log("caName",caInfo.caName)
     console.log("caT",caTLSCACerts)
-    const caClient = new FabricCAServices(`https://ca_${process.env.ORGANIZATION}:7054`, { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);
+    const caClient = new FabricCAServices(`https://ca_${process.env.ORGANIZATION}:${process.env.CAPORT}`, { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);
 
     console.log(`Built a CA Client named ${caInfo.caName}`);
     return caClient;
@@ -194,11 +194,10 @@ const invokeChaincode = async (req, _res, next) => {
             req.body.patientName,
             process.env.MSPID,
             req.body.description,
-            req.body.issueDate,
+            //req.body.issueDate,
             Date.now(),
             req.body.height,
-            req.body.weight,
-            req.body.patCitizenshipNo);
+            req.body.weight);
             // const result = await contract.evaluateTransaction(funcName, req.login._id);
             // req.blockchain = prettyJSONString(result.toString());
 

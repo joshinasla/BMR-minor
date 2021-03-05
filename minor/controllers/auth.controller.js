@@ -13,19 +13,19 @@ exports.signin = (req, res) => {
 
     email: req.body.email
   })
-    .exec((err, login) => {
+    .exec((err, user) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
 
-      if (!login) {
+      if (!user) {
         return res.render('404');
       }
-
+      
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
-        login.password
+        user.password
       );
 
       if (!passwordIsValid) {
@@ -36,7 +36,7 @@ exports.signin = (req, res) => {
         return res.render('404');
       }
 
-      var token = jwt.sign({ id: login.id }, config.secret, {
+      var token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
       // res.status(200).send({
@@ -45,12 +45,55 @@ exports.signin = (req, res) => {
       //   roles: authorities,
       //   accessToken: token
       // });
-      if (roles==='Patient'){
-      res.render('home', { data: token });
+      res.render('home', { data: token })
+
+
+
+    }
+    )
+}
+
+exports.signindoctor = (req, res) => {
+  console.log(req.body.email);
+  User.findOne({
+
+    email: req.body.email
+  })
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
       }
-      else {
-        res.render('homedoctor',{data: token});
+
+      if (!user) {
+        return res.render('404');
       }
+
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+
+      if (!passwordIsValid) {
+        // return res.status(401).send({
+        //   accessToken: null,
+        //   message: "Invalid Password!"
+        // });
+        return res.render('404');
+      }
+
+      var token = jwt.sign({ id: user.id }, config.secret, {
+        expiresIn: 86400 // 24 hours
+      });
+      // res.status(200).send({
+      //   id: login._id,
+      //   email: user.email,
+      //   roles: authorities,
+      //   accessToken: token
+      // });
+
+      res.render('homedoctor', { data: token });
+
 
 
     }

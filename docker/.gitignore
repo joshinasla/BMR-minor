@@ -1,2 +1,9 @@
-mongo-volume
-wallet-org1
+
+.env*
+
+vendor
+
+bin
+
+wallet*
+mongo*

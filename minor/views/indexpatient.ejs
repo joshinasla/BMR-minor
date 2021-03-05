@@ -1,7 +1,6 @@
-
-
 <!DOCTYPE html>
 <html>
+    
 
 <head>
         <title>BMR</title>
@@ -9,6 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap Css -->
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/signup.css">
         <link rel="stylesheet" type="text/css" href="/plugins/bootstrap-3.3.6/css/bootstrap.min.css">        
         <!-- Bootstrap Select Css -->
         <link rel="stylesheet" type="text/css" href="/plugins/bootstrap-select-1.10.0/dist/css/bootstrap-select.min.css">
@@ -24,15 +25,16 @@
 
         <!-- Main Css -->
         <link rel="stylesheet" type="text/css" href="/css/theme.css">
-             <link rel="stylesheet" type="text/css" href="/css/custom.css">
-
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
 
         <!--[if lt IE 9]>
-        <script src="/plugins/iesupport/html5shiv.js"></script>
-        <script src="/plugins/iesupport/respond.js"></script>
+        <script src="assets/plugins/iesupport/html5shiv.js"></script>
+        <script src="assets/plugins/iesupport/respond.js"></script>
         <![endif]-->
     </head>
-    <body id="home">
+    <body id="home" class="main">
+        
+
 
         <!-- Main Wrapper -->        
         <main class="wrapper">
@@ -44,18 +46,21 @@
                 <div class="top-bar font2-title1 white-clr">
                     <div class="theme-container container">
                         <div class="row">
-               
-                            <div class="col-md-12 col-sm-12 fs-12">
-                                <p class="contact-num">  <i class="fa fa-phone"></i> Call us now: <span class="theme-clr"> +977 9860394938</span> </p>
+                            <div class="col-md-12 col-sm-12 ">
+                                    <p class="contact-num">  <i class="fa fa-phone"></i> Call us now: <span class="theme-clr"> +880-1756-390-370 </span> </p>
+                
                             </div>
+
+                       
+
                         </div>
                     </div>
-                    <a data-toggle="modal" class="sign-in fs-12 theme-clr-bg"> Hi</a>
+                    <a data-toggle="modal" class="sign-in fs-12 theme-clr-bg"> HI</a>
                 </div>
                 <!-- /.Header Topbar -->
 
                 <!-- Header Logo & Navigation -->
-                        <nav class="menu-bar font2-title1">
+                <nav class="menu-bar font2-title1">
                     <div class="theme-container container">
                         <div class="row">
                             <div class="col-md-2 col-sm-2">
@@ -65,9 +70,9 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-logo" href="#"> <h3> BMR</h3></a>
+                                <a class="navbar-logo" href="#"> <h3>BMR</h3> </a>
                             </div>
-                            <div class="col-md-10 col-sm-10 fs-12">
+                            <!-- <div class="col-md-10 col-sm-10 fs-12">
                                 <div id="navbar" class="collapse navbar-collapse no-pad">
                                     <ul class="navbar-nav theme-menu">
                                         <li class="active"><a href="/home">Home </a></li>
@@ -80,7 +85,7 @@
                              
                                     </ul>                                                      
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </nav>
@@ -88,70 +93,98 @@
 
             </header>
             <!-- /.Header -->
-
-            <!-- Content Wrapper -->
-            <article> 
-                <!-- Breadcrumb -->
-                <section class="theme-breadcrumb pad-50">                
-                    <div class="theme-container container ">  
-                        <div class="row">
-                            <div class="col-sm-8 pull-left">
-                                <div class="title-wrap">
-                                    <h2 class="section-title no-margin">Our Doctors</h2>
-                                    <p class="fs-16 no-margin">Know about our Doctors</p>
+    
+             <!--  <div class="modal-content">   
+                        <div class="login-wrap text-center col-md-3 col-sm-6">                        
+                            <h2 class="title-3"> sign in </h2>
+                            <p> Sign in to <strong> GO </strong> for getting all details </p>                        
+    
+                            <div class="login-form clrbg-before">
+                                <form class="login">
+                                    <div class="form-group"><input type="text" placeholder="Email address" class="form-control"></div>
+                                    <div class="form-group"><input type="password" placeholder="Password" class="form-control"></div>
+                                    <div class="form-group">
+                                        <button class="btn-1 " type="submit"> Sign in now </button>
+                                    </div>
+                                </form>
+                                <a href="#" class="gray-clr"> Forgot Passoword? </a>                            
+                            </div>                        
+                        </div>
+                        <div class="login-wrap text-center col-md-3 col-sm-6">                        
+                            <h2 class="title-3"> sign in </h2>
+                            <p> Sign in to <strong> GO </strong> for getting all details </p>                        
+    
+                            <div class="login-form clrbg-before">
+                                <form class="login">
+                                    <div class="form-group"><input type="text" placeholder="Email address" class="form-control"></div>
+                                    <div class="form-group"><input type="password" placeholder="Password" class="form-control"></div>
+                                    <div class="form-group">
+                                        <button class="btn-1 " type="submit"> Sign in now </button>
+                                    </div>
+                                </form>
+                                <a href="#" class="gray-clr"> Forgot Passoword? </a>                            
+                            </div>                        
+                        </div>
+             
+                    </div>-->     
+                    <div class="wrap">
+                    <div class="contain" id="contain">
+                        <div class="form-container sign-up-container">
+                        
+                        <form  method="POST">
+                            <h1>Create Account</h1>
+                            <div class="social-container">
+                                <a href="#" class="social"><i class="fa fa-facebook"></i></a>
+                                <a href="#" class="social"><i class="fa fa-google"></i></a>
+                                <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                            <span>or use your email for registration</span>
+                            <input type="text" name="name" placeholder="Name">
+                            <input type="email" name="email" placeholder="Email">
+                            <input type="password" name="password" placeholder="Password">
+                            <button>SignUp</button>
+                        </form>
+                        </div>
+                        <div class="form-container sign-in-container">
+                            <form action="/signin" method="POST">
+                                <h1>Sign In</h1>
+                                <div class="social-container">
+                                <a href="#" class="social"><i class="fa fa-facebook"></i></a>
+                                <a href="#" class="social"><i class="fa fa-google"></i></a>
+                                <a href="#" class="social"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                            <span>or use your account</span>
+                            <input type="email" name="email" placeholder="Email">
+                            <input type="password" name="password" placeholder="Password">
+                            <a href="#">Forgot Your Password</a>
+                        
+                            <button>Sign In</button>
+                            </form>
+                        </div>
+                        <div class="overlay-container">
+                            <div class="overlay">
+                                <div class="overlay-panel overlay-left">
+                                    <h1>Welcome Back!</h1>
+                                    <p>To keep connected with us please login with your personal info</p>
+                                    <button class="ghost" id="signIn">Sign In</button>
+                                </div>
+                                <div class="overlay-panel overlay-right">
+                                    <h1>Hello, Patient!</h1>
+                                    <p>Enter your details and start journey with us</p>
+                                    <a data-toggle="modal" href="#login-popup" class="sign-in fs-12 theme-clr-bg">Sign Up</a>
                                 </div>
                             </div>
-                            <div class="col-sm-4">                        
-                                <ol class="breadcrumb-menubar list-inline">
-                                    <li><a href="#" class="gray-clr">Home</a></li>                                   
-                                    <li class="active">Doctors</li>
-                                </ol>
-                            </div>  
+                        </div>
                         </div>
                     </div>
-                </section>
-                <!-- /.Breadcrumb -->
-
-                <!-- Pricing & Plans -->
-                <section class="pricing-wrap pad-80">                
-                    <div class="theme-container container">                            
-                        <div class="row pb-50">
-                            <div class="col-md-4 active white-clr wow fadeInUp" data-wow-offset="50" data-wow-delay=".40s">
-                                <div class="pricing-box theme-clr-bg">
-                                    <div class="title-wrap text-center">
-                            
-                                        <h3><%=data[0].name%></h3>
-                                        <!-- <div class="btn-1 dark">Premium</div> -->
-                                    </div>
-                                    <div class="price-content">                                    
-                                        <ul class="title-2">
-                                            <li> NMC Number: <span class="white-clr"> <%=data[0].NMCNumber%></span> </li>
-                                            <li> Qualification: <span class="white-clr"> <%=data[0].qualification%></span> </li>
-                                            <li> Speciality: <span class="white-clr"><%=data[0].speciality%></span> </li>
-                                            <!-- <li> support: <span class="white-clr">yes</span> </li> -->
-                                        </ul>
-                                    </div>
-                                    <!-- <div class="order">
-                                        <a href="#" class="title-1 white-clr"> <span class="transition"> order now </span> <i class="arrow_right fs-26"></i> </a>
-                                    </div>                                 -->
-                                </div>
-                            </div> 
-                        </div>
-
-                    
-                    </div>               
-                </section>
-                <!-- /.Pricing & Plans -->
-            </article>
-            <!-- /.Content Wrapper -->
-
+              
             <!-- Footer -->
-         <footer>
+            <footer>
                 <div class="footer-main pad-120 white-clr">
                     <div class="theme-container container">               
                         <div class="row">
                             <div class="col-md-3 col-sm-6 footer-widget">
-                                <a href="#"> <h2>BMR</h2></a>
+                                <a href="#"> <img class="logo" alt="#" src="/img/logo/logo-white.png" />  </a>
                             </div>
                             <div class="col-md-3 col-sm-6 footer-widget">
                                 <h2 class="title-1 fw-900">quick links</h2>
@@ -211,21 +244,22 @@
 
                 <div class="modal-content">   
                     <div class="login-wrap text-center">                        
-                        <h2 class="title-3"> sign in </h2>
-                        <p> Sign in to <strong> GO </strong> for getting all details </p>                        
+                        <h2 class="title-3"> sign up</h2>
+                        <p> Sign up to <strong> GO </strong> for getting all details </p>                        
 
                         <div class="login-form clrbg-before">
-                            <form class="login">
-                                <div class="form-group"><input type="text" placeholder="Email address" class="form-control"></div>
-                                <div class="form-group"><input type="password" placeholder="Password" class="form-control"></div>
+                            <form class="login" action="/signup" method="POST" >
+                                <div class="form-group"><input type="text" placeholder="Email address" class="form-control" name="email"></div>
+                                <div class="form-group"><input type="text" placeholder="Role" class="form-control" name="role"></div>
+                                <div class="form-group"><input type="password" placeholder="Password" class="form-control" name="password"></div>
                                 <div class="form-group">
-                                    <button class="btn-1 " type="submit"> Sign in now </button>
+                                    <button class="btn-1 " type="submit"> Sign up now </button>
                                 </div>
                             </form>
                             <a href="#" class="gray-clr"> Forgot Passoword? </a>                            
                         </div>                        
                     </div>
-                
+         
                 </div>
             </div>
         </div>
@@ -249,21 +283,28 @@
         <!-- Bootstrap JS -->
         <script src="/plugins/bootstrap-3.3.6/js/bootstrap.min.js" type="text/javascript"></script>    
         <!-- Bootstrap Select JS -->
-        <script src="/plugins/bootstrap-select-1.10.0/dist/js/bootstrap-select.min.js" type="text/javascript"></script>    
+        <script src="plugins/bootstrap-select-1.10.0/dist/js/bootstrap-select.min.js" type="text/javascript"></script>    
         <!-- OwlCarousel2 Slider JS -->
         <script src="/plugins/owl.carousel.2/owl.carousel.min.js" type="text/javascript"></script>   
         <!-- Sticky Header -->
         <script src="/js/jquery.sticky.js"></script>
         <!-- Wow JS -->
-        <script src="/plugins/WOW-master/dist/wow.min.js" type="text/javascript"></script>   
+        <script src="/plugins/WOW-master/dist/wow.min.js" type="text/javascript"></script>
+        <!-- Data binder -->
+        <script src="/plugins/data.binder.js/data.binder.js" type="text/javascript"></script>
 
         <!-- Slider JS -->        
 
 
         <!-- Theme JS -->
         <script src="/js/theme.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            const toggleForm = () => {
+            const container = document.querySelector('.contain');
+            container.classList.toggle('active');
+            };
+        </script>
 
     </body>
-
 
 </html>
