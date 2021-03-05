@@ -1,4 +1,3 @@
-// Imports
 const express = require('express')
 const app = express();
 const bodyParser = require('body-parser');
@@ -84,6 +83,9 @@ app.get('/about', (req, res) => {
 app.get('/tracking', (req, res) => {
   res.render('tracking')
 })
+app.get('/trackingdoctor', (req, res) => {
+  res.render('trackingdoctor')
+})
 
 app.get('/contact', (req, res) => {
   res.render('contact-us')
@@ -120,9 +122,9 @@ app.post('/doctor_entry', function (req, res) {
   res.render('form', {
     data: req.body
   })
-  console.log(req.body.doctorName)
-  var user = new Doctor({
-    doctorName: req.body.doctorName,
+  console.log(req.body.name)
+  var doctor = new Doctor({
+    name: req.body.name,
     NMCNumber: req.body.NMCNumber,
     //hospitalName: res.body.hospitalName,
     qualification: req.body.qualification,
@@ -153,11 +155,7 @@ app.post('/find',
   responseController.user
   
   )
-app.post('/display',
-  reportController.getReports,
-  blockchainController.queryChaincode,
-  responseController.user
-)
+
 app.post('/update',
   reportController.updateReportByID,
   blockchainController.invokeChaincode,
